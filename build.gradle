@@ -1,0 +1,37 @@
+apply plugin: "kotlin"
+
+ext {
+  kotlinVersion = '0.7.191'
+}
+
+buildscript {
+  repositories {
+    mavenCentral()
+    maven {
+      url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.7.191"
+  }
+}
+
+repositories {
+  mavenCentral()
+  maven {
+    url 'http://oss.sonatype.org/content/repositories/snapshots'
+  }
+}
+
+dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+  compile 'org.mongodb:mongodb-driver:3.0.0-SNAPSHOT'
+  compile 'io.netty:netty-all:4.0.15.Final'
+  testCompile  'org.testng:testng:6.8.7'
+}
+
+test.testClassesDir = project.tasks.compileTestKotlin.destinationDir
+
+task wrapper(type: Wrapper) {
+  gradleVersion="1.10"
+}
