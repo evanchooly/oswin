@@ -1,4 +1,4 @@
-package com.antwerkz.kongo
+package com.antwerkz.oswin
 
 import org.testng.annotations.Test as test
 
@@ -6,7 +6,7 @@ public class MongoClientTest {
   test fun insert() {
     val mongoClient = MongoClient()
 
-    val collection = mongoClient.getDatabase("kongo").getCollection("test")
+    val collection = mongoClient.getDatabase("oswin").getCollection("test")
     collection.insert(document("a" to "b", "number" to 12L))
 
     val mongoCursor = collection.find()

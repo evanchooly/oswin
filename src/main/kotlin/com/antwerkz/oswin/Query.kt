@@ -1,4 +1,4 @@
-package com.antwerkz.kongo
+package com.antwerkz.oswin
 
 import org.mongodb.operation.QueryOperation
 import org.mongodb.operation.Find
@@ -25,6 +25,8 @@ public class Query(val collection: MongoCollection, val client: MongoClient, val
     return this
   }
 }
+
+public fun <B> String.eq(that: B): Pair<String, B> = Pair(this, that)
 
 fun <T> MongoCursor<Document>.each(function : (Document) -> T) : Unit {
   while(hasNext()) {

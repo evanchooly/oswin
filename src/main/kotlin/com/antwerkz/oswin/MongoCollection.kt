@@ -1,4 +1,4 @@
-package com.antwerkz.kongo
+package com.antwerkz.oswin
 
 import org.mongodb.Document
 import org.mongodb.operation.InsertRequest

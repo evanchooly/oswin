@@ -1,7 +1,7 @@
 apply plugin: "kotlin"
 
 ext {
-  kotlinVersion = '0.7.191'
+  kotlinVersion = '0.7.270'
 }
 
 buildscript {
@@ -12,7 +12,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.7.191"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.7.270"
   }
 }
 

@@ -1,4 +1,4 @@
-package com.antwerkz.kongo
+package com.antwerkz.oswin
 
 import org.mongodb.ReadPreference
 import org.mongodb.WriteConcern
