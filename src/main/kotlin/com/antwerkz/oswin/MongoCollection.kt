@@ -10,7 +10,8 @@ import org.mongodb.codecs.PrimitiveCodecs
 import org.mongodb.codecs.ObjectIdGenerator
 import org.mongodb.WriteConcern
 import org.mongodb.ReadPreference
-import org.mongodb.QueryBuilder
+import org.mongodb.operation.DropCollectionOperation
+import org.mongodb.CommandResult
 
 
 class MongoCollection(val name: String, private val mongoClient: MongoClient, db: MongoDatabase) {
@@ -24,8 +25,14 @@ class MongoCollection(val name: String, private val mongoClient: MongoClient, db
 
   }
 
-  fun find(filter: QueryBuilder = QueryBuilder(), readPreference: ReadPreference = ReadPreference.primary()!!): Query {
-    val query = Query(this, mongoClient, readPreference)
+  fun drop() {
+    DropCollectionOperation(namespace, mongoClient.getBufferProvider(), mongoClient.getSession(), true)
+      .execute()
+  }
+
+  fun find(vararg operators: QueryOperator, readPreference: ReadPreference = ReadPreference.primary()!!): Query {
+
+    val query = Query(operators, this, mongoClient, readPreference)
     return query;
   }
 }

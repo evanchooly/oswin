@@ -9,14 +9,19 @@ import org.mongodb.ReadPreference
 import org.mongodb.operation.QueryFlag
 import java.util.EnumSet
 
-public class Query(val collection: MongoCollection, val client: MongoClient, val readPreference: ReadPreference) {
+public class Query(private val operators: Array<QueryOperator>, val collection: MongoCollection,
+    val client: MongoClient, val readPreference: ReadPreference) {
+
   private val codec = DocumentCodec()
   private var skip: Int = 0
   private var limit: Int = 0
   private var options: QueryOptions = QueryOptions()
 
   fun invoke(): MongoCursor<Document> {
-    return QueryOperation(collection.namespace, Find().readPreference(readPreference), codec, codec, client.getBufferProvider(), client.getSession(), false)
+    var doc  = Document()
+    operators.forEach { operator ->
+      doc.putAll(operator.toDocument()) }
+    return QueryOperation(collection.namespace, Find(doc).readPreference(readPreference), codec, codec, client.getBufferProvider(), client.getSession(), false)
         .execute()!!
   }
 
@@ -26,10 +31,8 @@ public class Query(val collection: MongoCollection, val client: MongoClient, val
   }
 }
 
-public fun <B> String.eq(that: B): Pair<String, B> = Pair(this, that)
-
-fun <T> MongoCursor<Document>.each(function : (Document) -> T) : Unit {
-  while(hasNext()) {
+fun <T> MongoCursor<Document>.each(function: (Document) -> T): Unit {
+  while (hasNext()) {
     function(next())
   }
 }
