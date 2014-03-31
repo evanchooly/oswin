@@ -39,7 +39,7 @@ public class MongoClient(
       ?.maxWaitQueueSize(20)
 
     cluster = DefaultClusterFactory().create(clusterBuilder?.build(), ServerSettings.builder()!!.build(),
-        cpSettingsBuilder?.build(), streamFactory, streamFactory, listOf(), getBufferProvider(),
+        cpSettingsBuilder?.build(), streamFactory, streamFactory, listOf(),
         null, null, null)!!
   }
 

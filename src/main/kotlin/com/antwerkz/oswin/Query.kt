@@ -21,8 +21,8 @@ public class Query(private val operators: Array<QueryOperator>, val collection: 
     var doc  = Document()
     operators.forEach { operator ->
       doc.putAll(operator.toDocument()) }
-    return QueryOperation(collection.namespace, Find(doc).readPreference(readPreference), codec, codec, client.getBufferProvider(), client.getSession(), false)
-        .execute()!!
+    return QueryOperation(collection.namespace, Find(doc).readPreference(readPreference), codec, codec)
+        .execute(client.getSession())!!
   }
 
   fun options(init: QueryOptions.() -> Unit): Query {
