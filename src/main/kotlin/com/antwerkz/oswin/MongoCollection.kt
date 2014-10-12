@@ -11,7 +11,6 @@ import org.mongodb.codecs.ObjectIdGenerator
 import org.mongodb.WriteConcern
 import org.mongodb.ReadPreference
 import org.mongodb.operation.DropCollectionOperation
-import org.mongodb.CommandResult
 
 
 class MongoCollection(val name: String, private val mongoClient: MongoClient, db: MongoDatabase) {
@@ -25,12 +24,20 @@ class MongoCollection(val name: String, private val mongoClient: MongoClient, db
   }
 
   fun drop() {
-    DropCollectionOperation(namespace) .execute((mongoClient.getSession()))
+    DropCollectionOperation(namespace).execute((mongoClient.getSession()))
   }
 
   fun find(vararg operators: QueryOperator, readPreference: ReadPreference = ReadPreference.primary()!!): Query {
-
-    val query = Query(operators, this, mongoClient, readPreference)
-    return query;
+    return Query(operators, this, mongoClient, readPreference);
   }
+
+  fun find(readPreference: ReadPreference = ReadPreference.primary()!!): QueryBuilder {
+    return QueryBuilder(this, mongoClient, readPreference);
+  }
+
+  fun delete(vararg operators: QueryOperator, readPreference: ReadPreference = ReadPreference.primary()!!): Delete {
+    return Query(operators, this, mongoClient, readPreference);
+  }
+
+
 }
